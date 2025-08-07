@@ -24,12 +24,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <ClerkProvider
-          signInUrl="/sign-in"
-          signUpUrl="/sign-up"
-          afterSignInUrl="/"
-          afterSignUpUrl="/"
-        >
+        <ClerkProvider>
           <Providers>{children}</Providers>
         </ClerkProvider>
       </body>

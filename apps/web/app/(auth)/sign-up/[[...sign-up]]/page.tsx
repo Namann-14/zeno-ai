@@ -1,12 +1,7 @@
-import { SignUp } from '@clerk/nextjs'
+import SignUpView from "@/app/modules/auth/ui/views/sign-up-view"
 
 export default function Page() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <SignUp 
-        redirectUrl="/"
-        signInUrl="/sign-in"
-      />
-    </div>
+    <SignUpView />
   )
 }
