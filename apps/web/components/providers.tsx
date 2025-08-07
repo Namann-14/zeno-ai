@@ -22,6 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
       enableColorScheme
+      forcedTheme="light"
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         {children}
