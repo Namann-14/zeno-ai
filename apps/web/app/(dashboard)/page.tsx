@@ -2,8 +2,7 @@
 import { Button } from "@workspace/ui/components/button"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
-import { Authenticated, Unauthenticated } from "convex/react";
-import { OrganizationSwitcher, SignInButton, UserButton } from "@clerk/nextjs";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
 export default function Page() {
   const users = useQuery(api.users.getMany);
