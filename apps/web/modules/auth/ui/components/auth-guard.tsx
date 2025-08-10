@@ -3,7 +3,7 @@
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react"
 import { AuthLayout } from "../layouts/auth-layout"
 import SignInView from "../views/sign-in-view"
-import { LoaderFour } from "@/components/ui/loader"
+import { LoaderFive, LoaderFour } from "@/components/ui/loader"
 
 
 export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
@@ -11,7 +11,7 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         <>
             <AuthLoading>
                 <AuthLayout>
-                    <LoaderFour />
+                    <LoaderFive text="Loading..." />
                 </AuthLayout>
             </AuthLoading>
             <Authenticated>
