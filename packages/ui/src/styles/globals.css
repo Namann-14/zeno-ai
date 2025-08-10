@@ -124,4 +124,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Remove list markers from sidebar menu items */
+  [data-sidebar="menu-item"] {
+    list-style: none;
+  }
 }

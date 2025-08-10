@@ -1,4 +1,4 @@
-import { OrganizationSelectView } from "@/app/modules/auth/ui/views/organization-select-view";
+import { OrganizationSelectView } from "@/modules/auth/ui/views/organization-select-view";
 
 export default function Page() {
     return (
