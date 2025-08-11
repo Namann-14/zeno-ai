@@ -11,11 +11,16 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { WidgetHeader } from "../components/widget-header";
+import { useMutation } from "convex/react";
+import { api } from "@workspace/backend/_generated/api"
+import { Doc } from "@workspace/backend/_generated/dataModel";
 
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Invalid email address"),
 });
+
+const organizationId = "123"
 
 export const WidgetAuthScreen = () => {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -26,8 +31,35 @@ export const WidgetAuthScreen = () => {
         },
     });
 
+    const createContactSession = useMutation(api.public.contactSessions.create);
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+        if (!organizationId) {
+            return;
+        }
+
+        const metadata: Doc<"contactSessions">["metadata"] = {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            languages: navigator.languages?.join(","),
+            platform: navigator.platform,
+            vendor: navigator.vendor,
+            screenResolution: `${screen.width}x${screen.height}`,
+            viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            timezoneOffset: new Date().getTimezoneOffset(),
+            cookieEnabled: navigator.cookieEnabled,
+            referrer: document.referrer || "direct",
+            currentUrl: window.location.href
+        }
+
+        const contactSessionId = await createContactSession({
+            ...values,
+            organizationId,
+            metadata
+        });
+
+        console.log({ contactSessionId })
     }
 
     return (
@@ -81,6 +113,13 @@ export const WidgetAuthScreen = () => {
                             </FormItem>
                         )}
                     />
+                    <Button
+                        disabled={form.formState.isSubmitting}
+                        size="lg"
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
                 </form>
             </Form>
         </>
