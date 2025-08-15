@@ -8,6 +8,7 @@ import { contactSessionIdAtomFamily, conversationIdAtom, errorMessageAtom, organ
 import { useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
 import { useState } from "react"
+import { WidgetFooter } from "../components/widget-footer"
 
 export const WidgetSelectionScreen = () => {
 
@@ -50,8 +51,8 @@ export const WidgetSelectionScreen = () => {
     }
 
     return (
-        <>
-            <WidgetHeader>
+        <div className="flex flex-col h-screen">
+            <WidgetHeader className="flex-shrink-0">
                 <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
                     <p className="text-3xl">
                         Hi there
@@ -61,7 +62,7 @@ export const WidgetSelectionScreen = () => {
                     </p>
                 </div>
             </WidgetHeader>
-            <div className="flex flex-1 flex-col gap-y-4 p-4 overflow-y-auto">
+            <div className="flex flex-1 flex-col gap-y-4 p-4 overflow-y-auto pb-16">
                 <Button
                     className="h-16 w-full justify-between"
                     variant="outline"
@@ -74,7 +75,10 @@ export const WidgetSelectionScreen = () => {
                     </div>
                     <ChevronRightIcon />
                 </Button>
-            </div >
-        </>
+            </div>
+            <div className="fixed bottom-0 left-0 right-0">
+                <WidgetFooter />
+            </div>
+        </div>
     )
 }

@@ -86,8 +86,8 @@ export const WidgetChatScreen = () => {
     }
 
     return (
-        <>
-            <WidgetHeader className="flex items-center justify-between">
+        <div className="flex flex-col h-screen">
+            <WidgetHeader className="flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center justify-around gap-x-2">
                     <Button
                         size="icon"
@@ -103,76 +103,80 @@ export const WidgetChatScreen = () => {
                     </Button>
                 </div>
             </WidgetHeader>
-            <AIConversation>
-                <AIConversationContent>
-                    <InfiniteScrollTrigger
-                        canLoadMore={canLoadMore}
-                        isLoadingMore={isLoadingMore}
-                        onLoadMore={handleLoadMore}
-                        ref={topElementRef}
-                    />
-                    {toUIMessages(messages.results ?? [])?.map((message) => {
-                        return (
-                            <AIMessage
-                                from={message.role === "user" ? "user" : "assistant"}
-                                key={message.id}
-                            >
-                                <AIMessageContent>
-                                    <AIResponse>{message.content}</AIResponse>
-                                </AIMessageContent>
-                                {message.role === "assistant" && (
-                                    <DicebearAvatar
-                                        imageUrl="/logo2.svg"
-                                        seed="assistant"
-                                        size={32}
-                                    />
-                                )}
-                            </AIMessage>
-                        )
-                    })}
-                </AIConversationContent>
-            </AIConversation>
-            <Form {...form}>
-                <AIInput
-                    className="rounded-none border-x-0 border-b-0"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                >
-                    <FormField
-                        control={form.control}
-                        disabled={conversation?.status === "resolved"}
-                        name="message"
-                        render={({ field }) => {
+            <div className="flex-1 overflow-hidden">
+                <AIConversation className="h-full">
+                    <AIConversationContent className="h-full pb-20">
+                        <InfiniteScrollTrigger
+                            canLoadMore={canLoadMore}
+                            isLoadingMore={isLoadingMore}
+                            onLoadMore={handleLoadMore}
+                            ref={topElementRef}
+                        />
+                        {toUIMessages(messages.results ?? [])?.map((message) => {
                             return (
-                                <AIInputTextarea
-                                    disabled={conversation?.status === "resolved"}
-                                    onChange={field.onChange}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter" && !e.shiftKey) {
-                                            e.preventDefault();
-                                            form.handleSubmit(onSubmit)();
-                                        }
-                                    }}
-                                    placeholder={
-                                        conversation?.status === "resolved"
-                                            ? "This conversation has been resolved"
-                                            : "Type your message..."
-                                    }
-                                    value={field.value}
+                                <AIMessage
+                                    from={message.role === "user" ? "user" : "assistant"}
+                                    key={message.id}
                                 >
-                                    <AIInputToolbar>
-                                        <AIInputTools />
-                                        <AIInputSubmit
-                                            disabled={conversation?.status === "resolved" || !form.formState.isValid}
-                                            status="ready"
-                                            type="submit"
+                                    <AIMessageContent>
+                                        <AIResponse>{message.content}</AIResponse>
+                                    </AIMessageContent>
+                                    {message.role === "assistant" && (
+                                        <DicebearAvatar
+                                            imageUrl="/logo2.svg"
+                                            seed="assistant"
+                                            size={32}
                                         />
-                                    </AIInputToolbar>
-                                </AIInputTextarea>
-                            );
-                        }}
-                    />
-                </AIInput>
-            </Form>
-        </>
+                                    )}
+                                </AIMessage>
+                            )
+                        })}
+                    </AIConversationContent>
+                </AIConversation>
+            </div>
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
+                <Form {...form}>
+                    <AIInput
+                        className="rounded-none border-x-0 border-b-0"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                        <FormField
+                            control={form.control}
+                            disabled={conversation?.status === "resolved"}
+                            name="message"
+                            render={({ field }) => {
+                                return (
+                                    <AIInputTextarea
+                                        disabled={conversation?.status === "resolved"}
+                                        onChange={field.onChange}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter" && !e.shiftKey) {
+                                                e.preventDefault();
+                                                form.handleSubmit(onSubmit)();
+                                            }
+                                        }}
+                                        placeholder={
+                                            conversation?.status === "resolved"
+                                                ? "This conversation has been resolved"
+                                                : "Type your message..."
+                                        }
+                                        value={field.value}
+                                    >
+                                        <AIInputToolbar>
+                                            <AIInputTools />
+                                            <AIInputSubmit
+                                                disabled={conversation?.status === "resolved" || !form.formState.isValid}
+                                                status="ready"
+                                                type="submit"
+                                            />
+                                        </AIInputToolbar>
+                                    </AIInputTextarea>
+                                );
+                            }}
+                        />
+                    </AIInput>
+                </Form>
+            </div>
+        </div>
     )
 }
